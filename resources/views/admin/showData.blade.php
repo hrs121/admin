@@ -23,7 +23,7 @@
         <td>{{ $data->description }}</td>
         <td>
             <a href="{{ url('/edit/'.$data->title) }}" class="btn btn-success">Edit</a>
-            <a href="{{ url('/delete/'.$data->title) }}" onclick="return confirm('Are you sure to delete')" class="btn btn-danger">Delete</a>
+            <a href="{{ url('/delete/'.$data->id) }}" onclick="return confirm('Are you sure to delete')" class="btn btn-danger">Delete</a>
         </td>
     </tr>
 @else

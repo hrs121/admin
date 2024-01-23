@@ -3,45 +3,6 @@
 @section('section_content')
 
 <div id="content" class="span10">
-    @if(Session::has('msg'))
-        <p class="alert alert-success mt-3">{{Session::get('msg')}}</p>
-    @endif
-    <table class="table ">
-        <thead>
-            <tr>
-                <th scope="col-5">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Designation</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Bio</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach($showInfo as $key => $data)
-        @if($data)
-                    <tr>
-                        <td>{{$key+1}}</td>
-                        <td>{{$data->name}}</td>
-                        <td>{{$data->designation}}</td>
-                        <td>{{$data->email}}</td>
-                        <td>{{$data->phone}}</td>
-                        <td>{{$data->bio}}</td>
-                        <td>
-                            <a href="{{ url('/editPerson/'.$data->id) }}" class="btn btn-success">Edit</a>
-                            <a href="{{url('/deletePerson/'.$data->id)}}" onclick="return confirm('Are you sure to delete')" class="btn btn-danger">Delete</a>
-                        </td>
-                    </tr>
-          @else
-                    <tr>
-                        <td colspan="4">No data available</td>
-                    </tr>
-
-                    @endif
-
-@endforeach
-        </tbody>
-    </table>
 
     <ul class="breadcrumb">
         <li>
@@ -69,38 +30,39 @@
                     <h2 class="mt-5">Personal Information</h2>
                     <p>Please fill this form and submit to add record to the database.</p>
 
-                    <form action="{{url('/personal-info')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{url('/updatePerson/'.$editPerson->id)}}" method="post" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <div class="form-group">
                             <label>Name</label>
-                            <input type="text" name="name" class="form-control">
+                            <input type="text" name="name" class="form-control" value="{{ $editPerson->name }}">
                         </div>
 
                         <div class="form-group">
                             <label>Designation</label>
-                            <input type="text" name="designation" class="form-control">
+                            <input type="text" name="designation" class="form-control" value="{{ $editPerson->designation }}">
                         </div>
 
                         <!-- New section for email -->
                         <div class="form-group" id="emailSection">
                             <label>Email</label>
                             <div class="input-group mb-3">
-                                <input type="email" name="email" class="form-control">
+                                <input type="email" name="email" class="form-control" value="{{ $editPerson->email }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label>Phone</label>
                             <div class="input-group mb-3">
-                                <input type="number" name="phone" class="form-control">
+                                <input type="number" name="phone" class="form-control" value="{{ $editPerson->phone }}">
                             </div>
                         </div>
+
 
                         <div class="form-group">
                             <label>Bio</label>
                             <div class="input-group mb-3">
-                                <textarea id="bio" name="bio" rows="4" cols="50"></textarea>
+                                <textarea id="bio" name="bio" rows="4" cols="50">{{ $editPerson->bio }}</textarea>
                                 <span class="invalid-feedback"></span>
                             </div>
                         </div>
@@ -108,6 +70,10 @@
                         <div class="form-group">
                             <label>Image</label>
                             <div class="input-group mb-3">
+                            @if($editPerson->image)
+                                    <!-- Display the current image -->
+                                    <img src="data:image/jpeg;base64,{{ $editPerson->image }}" class="img-thumbnail" alt="Current Image">
+                                @endif
                                 <input type="file" name="image" class="form-control">
                             </div>
                         </div>
